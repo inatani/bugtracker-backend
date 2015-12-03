@@ -19,6 +19,7 @@ mongoose.connection.on('connected', function(){
     console.log("Database connected successful");
 });
 mongoose.connection.on('error', console.log);
+
 /**
  * Get port from environment and store in Express.
  */

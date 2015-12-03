@@ -7,11 +7,11 @@ var routes = {
 };
 
 //user
-router.post('/api/user', routes.user.createUser);
-router.get('/api/user', routes.user.getAllUser);
-router.get('/api/user/:id',routes.user.getUserByID);
-router.post('/api/user/:id',routes.user.updateUserByID);
-router.delete('/api/user/:id',routes.user.removeUserByID);
+router.post('/api/user', routes.user.create);
+router.get('/api/user', routes.user.getAll);
+router.get('/api/user/:id',routes.user.getOne);
+router.post('/api/user/:id',routes.user.update);
+router.delete('/api/user/:id',routes.user.delete);
 
 //project
 
