@@ -1,7 +1,8 @@
 var jwt = require('jwt-simple');
-var userModel = require('../models/user')
+var userModel = require('../models/user');
+
 var auth = {
-  login : function (req, res){
+  loginUser : function (req, res){
     var username = req.body.username || '';
     var password = req.body.password || '';
 
@@ -27,23 +28,23 @@ var auth = {
     }
   },
   validateUser : function(username, password){
-    User.findOne({emailID : username},function(err, user){
-            if(err) throw err;
-            userModel.comparePassword(password, function(err, isMatch){
-                if (err) throw err;
-                console.log('Password : '+ isMatch);
-                if(isMatch){
-                  return user;
-                } else{
-                  return err;
-                }
-            });
+    userModel.findOne({emailID : username},function(err, user){
+        if(err) throw err;
+        userModel.comparePassword(password, function(err, isMatch){
+            if (err) throw err;
+            console.log('Password : '+ isMatch);
+            if(isMatch){
+              return user;
+            } else{
+              return err;
+            }
         });
+    });
   }
 }
 
 function genToken(user){
-  var expires = expiresIn(7);
+  var expires = expiresIn(1);
   var token = jwt.encode({
     exp:expires
   }, require('../utilities/secret')());

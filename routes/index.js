@@ -3,8 +3,12 @@ var router = express.Router();
 
 var routes = {
     user : require("../controllers/user"),
-    project : require('../controllers/project')
+    project : require('../controllers/project'),
+    auth : require('../controllers/auth')
 };
+
+//login
+router.post('/login',routes.auth.loginUser);
 
 //user
 router.post('/api/user', routes.user.create);

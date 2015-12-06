@@ -2,10 +2,11 @@
  * Created by inatani on 10/7/15.
  */
 var Models = require('../models');
+
 var UserController_ = {
     create : function (req, res) {
         var register = req.body;
-        Models.User.findOne({empID:register.empID}, function (err, response){
+        Models.User.findOne({emailID:register.emailID}, function (err, response){
             if (err) throw err;
             if(response){
                 res.status(200).send({error:"User already exists"});

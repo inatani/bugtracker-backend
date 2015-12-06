@@ -1,6 +1,5 @@
 // All the require modules goes here
 var express = require('express');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var logger = require('morgan');
@@ -20,13 +19,18 @@ app.all('/*', function(req, res, next){
   }
 });
 
-app.all('/api/*',[]);
+app.all('/api/*',[require('./utilities/middleware')]);
 app.use('/', routes);
 
 app.use(function(req, res, next){
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+//  next(err);
+  res.json({
+    "status" : 404,
+    "message" : "Request not found"
+  });
+  return;
 });
 
 module.exports = app;
