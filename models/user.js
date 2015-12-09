@@ -35,6 +35,4 @@ User_.methods.comparePassword = function(userPassword, cb){
   });
 };
 
-userInfo = mongoose.model('userInfo', User_);
-
-module.exports = mongoose.model('user', userInfo);
+module.exports = mongoose.model('user', User_);

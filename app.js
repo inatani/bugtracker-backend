@@ -19,7 +19,8 @@ app.all('/*', function(req, res, next){
   }
 });
 
-app.all('/api/*',[require('./utilities/middleware')]);
+//app.all('/api/*',[require('./utilities/middleware')]);
+
 app.use('/', routes);
 
 app.use(function(req, res, next){

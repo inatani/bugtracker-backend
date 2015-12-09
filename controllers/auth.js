@@ -15,11 +15,12 @@ var auth = {
       return;
     }
     var getUserInfo = auth.validateUser(username, password);
+    console.log(JSON.stringify(getUserInfo));
     if(!getUserInfo){
       res.status(401);
       res.json({
         "status" : 401,
-        "message" : "unauthorized"
+        "message" : "Invalid Username Password"
       });
       return;
     }
@@ -30,10 +31,11 @@ var auth = {
   validateUser : function(username, password){
     userModel.findOne({emailID : username},function(err, user){
         if(err) throw err;
-        userModel.comparePassword(password, function(err, isMatch){
+      user.comparePassword(password, function(err, isMatch){
             if (err) throw err;
             console.log('Password : '+ isMatch);
             if(isMatch){
+              console.log("user doc "+JSON.stringify(user));
               return user;
             } else{
               return err;
@@ -41,7 +43,7 @@ var auth = {
         });
     });
   }
-}
+};
 
 function genToken(user){
   var expires = expiresIn(1);
