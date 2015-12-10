@@ -39,7 +39,7 @@ var validateRequests = function(req, res, next){
       res.status(500);
       res.json({
         "status" : 500,
-        "message" : "Server Error"
+        "message" : err
       });
     }
   } else {

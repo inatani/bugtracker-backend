@@ -14,31 +14,38 @@ var auth = {
       });
       return;
     }
-    var getUserInfo = auth.validateUser(username, password);
-    console.log(JSON.stringify(getUserInfo));
-    if(!getUserInfo){
-      res.status(401);
-      res.json({
-        "status" : 401,
-        "message" : "Invalid Username Password"
-      });
-      return;
-    }
-    if(getUserInfo){
-      res.json(genToken(getUserInfo));
-    }
+    var userInfo = {
+      "username" : username,
+      "password" : password
+    };
+
+    auth.validateUser(userInfo, function(err, result){
+      if(err){
+        res.status(401);
+        res.json({
+          "status" : 401,
+          "message" : "Invalid Username Password"
+        });
+        return;
+      } else {
+        console.log(JSON.stringify(result));
+        res.json(genToken(result));
+      }
+    });
   },
-  validateUser : function(username, password){
+  validateUser : function (userInfo, callback){
+    var username = userInfo.username;
+    var password = userInfo.password;
     userModel.findOne({emailID : username},function(err, user){
         if(err) throw err;
       user.comparePassword(password, function(err, isMatch){
             if (err) throw err;
             console.log('Password : '+ isMatch);
             if(isMatch){
-              console.log("user doc "+JSON.stringify(user));
-              return user;
+              //console.log("user doc "+JSON.stringify(user));
+              callback(null, user);
             } else{
-              return err;
+              callback(null, err);
             }
         });
     });
@@ -50,10 +57,18 @@ function genToken(user){
   var token = jwt.encode({
     exp:expires
   }, require('../utilities/secret')());
+
+  var filteredUser = {
+    username : user.firstName + " " + user.lastName,
+    emailid : user.emailID,
+    role : user.role,
+    empid : user.empID
+  };
+
   return {
     token : token,
     expires : expires,
-    user : user
+    user : filteredUser
   };
 }
 
